@@ -19,11 +19,15 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
-mongoose.connect('mongodb+srv://blog:RD8paskYC8Ayj09u@cluster0.pflplid.mongodb.net/?retryWrites=true&w=majority');
+// Replace this with the new MongoDB connection URL
+mongoose.connect('mongodb+srv://shopifylifedeveloper:UgWH6D0HbzOSUSLE@cluster0.w2mbs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 
 app.post('/register', async (req,res) => {
   const {username,password} = req.body;
-  try{
+  try {
     const userDoc = await User.create({
       username,
       password:bcrypt.hashSync(password,salt),
@@ -132,7 +136,6 @@ app.get('/post/:id', async (req, res) => {
   const {id} = req.params;
   const postDoc = await Post.findById(id).populate('author', ['username']);
   res.json(postDoc);
-})
+});
 
 app.listen(4000);
-//
